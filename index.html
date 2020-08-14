@@ -4,8 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Finder</title>
+
+    <!--------------------importing google fonts----------------->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet"> 
+    
+    <!--------------------css file----------------->
+    <link rel="stylesheet" href="./style.css">
+
+    <!--------------------main algorithm----------------->
+    <script src="./prime.js" defer></script>
 </head>
 <body>
+    <!--------------------navbar starts----------------->
+    <header>
+        <div class="header-logo"><span>Prime</span>Finder</div>
+        <nav>
+            <a href="#">Project Files</a>
+            <a href="#">Dark Mode</a>
+        </nav>
+    </header>
+    <!--------------------navbar ends----------------->
+    <section class="landing">
+        <div>
+            a <span>Positive Integer</span> that is divisible only by itself and 1. 
+        </div>
+        <div class="manual">
+            <p>Enter a <span>Positive Integer</span> to find all prime numbers between 0 and that number.</p> 
+            <p>Enter a <span>Range</span> (e.g. 10-100) to find all prime numbers between those 2 number.</p> 
+        </div>
+        <div class="search">
+            <input type="text" id="searchedNumber" placeholder="e.g 50 or 10-100">
+            <button>Go</button>
+        </div>
+    </section>
+    <section class="result">
+        <p>Total Prime numbers: <span class="totals">20</span></p>
+        <button>Copy All as Array</button>
+    </section>
+    <section class="result-visual">
+        <div><span>1</span></div>
+        <div><span>2</span></div>
+        <div><span>3</span></div>
+        <div><span>4</span></div>
+        <div><span>5</span></div>
+        <div><span>6</span></div>
+        <div><span>7</span></div>
+        <div><span>8</span></div>
+        <div><span>9</span></div>
+        <div><span>10</span></div>
+        <div data-prime><span>11</span></div>
+        <div><span>12</span></div>
+        <div><span>13</span></div>
+        <div><span>14</span></div>
+        <div><span>15</span></div>
+        <div><span>16</span></div>
+        <div><span>17</span></div>
+        <div><span>18</span></div>
+        <div><span>19</span></div>
+        <div><span>20</span></div>
+        <div><span>21</span></div>
+        <div><span>22</span></div>
+        <div><span>23</span></div>
+        <div><span>24</span></div>
+        <div><span>25</span></div>
+        <div><span>26</span></div>
+        <div><span>27</span></div>
+        <div><span>28</span></div>
+        <div><span>29</span></div>
+        <div><span>30</span></div>
+        <div><span>31</span></div>
+        <div><span>32</span></div>
+        <div><span>33</span></div>
+        <div><span>34</span></div>
+        <div><span>35</span></div>
+        <div><span>36</span></div>
+        <div><span>37</span></div>
+        <div><span>38</span></div>
+        <div><span>39</span></div>
+        <div><span>40</span></div>
+    </section>
+    <!-- <footer>Copyright © 2019 SM. All rights reserved</footer> -->
     
 </body>
 </html>
