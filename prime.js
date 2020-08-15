@@ -159,7 +159,13 @@ function updateDom(start, end, step, all_primes){
             document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
             continue;
         }
-        else{ 
+        else if (i > new_array[0]){
+            new_array.shift();
+            console.log('[Deleted]', new_array.shift())
+            document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
+            continue;
+        }
+        else {
             // if i==all_primes[0] --> means its a prime number
 
             /*as we have deleted all i > new_array[0] numbers this condition will never true */
