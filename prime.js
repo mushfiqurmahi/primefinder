@@ -1,23 +1,27 @@
+// gobal_var --so that u have to count var only once
+let all_primes = [];
+// all calculated prime numbers' list in ascending order
+
+let notShowRes = false
+
 document.addEventListener("DOMContentLoaded", () => {
-    // on documenat_content_loaded add eventlistener
-    document.getElementById("search").addEventListener("click", inputVal);
-    document.getElementById("search-input").onkeydown = e => {
-        if (event.which == 13 || event.keyCode == 13){
-            inputVal();
-        }
+    // on documenat_content_loaded add get the value
+    let input = window.location.search.substring(1).split('=')
+    if (!input.length === 2){
+        // invalid
+        return;
     }
 
     // get stuff from localStorage, if not then => []
     all_primes = localStorage.getItem('all_primes') || [];
+
+    let val = input[1]; // string
+    inputVal(val);
 });
 
-// gobal_var --so that u have to count var only once
-let all_primes = [];
-
-function inputVal(){
+function inputVal(val){
     console.log("[TAKING INPUT]");
-    let input_str = document.getElementById("search-input").value;
-    let nums = input_str.split('-');
+    let nums = val.split('-');
 
     console.log("[INPUT]", nums);
 
@@ -36,15 +40,12 @@ function inputVal(){
     else {
         // wrong input
         console.error("[WRONG INPUT]");
-        document.getElementById('search-input').setAttribute('data-error', '');
+        document.body.innerHTML = '<p>Invalid Arguments<p>';
         return;
     }
 }
 
 function calculate(start, end, step=1){
-    // input is right
-    console.log("[RIGHT INPUT]");
-    document.getElementById('search-input').removeAttribute('data-error');
 
     console.log("[CACULATING]")
     
@@ -56,12 +57,12 @@ function calculate(start, end, step=1){
     if (!(start && end && step && start>0 && end>0 && step>0 && start<end)){
         //wrong input
         console.error("[WRONG INPUT]");
-        document.getElementById('search-input').setAttribute('data-error', '');
+        document.body.innerHTML = '<p>Invalid Arguments<p>';
         return;
     }
 
-    // check if isPrime
-    
+    // check if isAllPrime
+    isAllPrime(end)
 
     console.log("[All Primes] ", all_primes);
     // all primes are found --> all_primes array
@@ -73,7 +74,7 @@ function calculate(start, end, step=1){
 function isAllPrime(end){
     /* This func calculate all prime and mutate the global all_primes variable */
 
-    let starting_point =1; //calculation will be started form this val
+    let starting_point = 1; //calculation will be started form this val
     if (all_primes.length){
         // if the array is not empty, check how many values has caculated already
         
@@ -83,25 +84,13 @@ function isAllPrime(end){
             return;
         }else{
             // end > last_element
-            // some values nedd to be calculated
-
+            // some values need to be calculated
+            starting_point = last_element; //calculate values from the last prime in the list
         }
     }
 
-    for (let i=1; i<=end; i+=step){
-        // starting from 1 because we need those prime to calculate higher value.
-        /*Check -->
-            1. if the list contains the already.
-            2. if not then check the number is a prime.
-        */
-        let  last_element = all_primes[all_primes.length - 1];
-        if (i <= last_element){
-            // if i <= last_element_of_the_list
-            // means the list already contains the number (means its prime*)
-            // nothing to do
-            continue;
-        }
-        else if(isPrime(i, all_primes)){ 
+    for (let i = starting_point; i <= end; i++){
+        if(isPrime(i)){ 
             // returns bool
             // list not contains that number
             // add it to the list
@@ -111,30 +100,37 @@ function isAllPrime(end){
     }
 }
 
-function isPrime(num, all_primes){
-    // num = integer > 0; so no extra check
+function isPrime(num){
+    // num == integer > 0; already checked!
 
     // '1' may come so check it
     if(num < 2) return false;
     else if(num === 2) return true; // 2-only even prime
     else if(!(num % 2)) return false; // even number, not=2
     else {
-        //check if divisible by every prime less than sqrt(num)
+        //check if divisible by every prime less than sqrt(num)**--> formula of primeNumber
+        // all_prime list can never be empty here (min_length==1, while value=2) 
         let sqrt_num = Math.sqrt(num);
         for (let i of all_primes){
-            if (i > sqrt_num) break;
-            if (!(num%i)) return false; //if any i can divide num return false
+            if (i > sqrt_num) break; // every prime less than(or equal) sqrt(num)
+            if (!(num%i)) return false; // if any i can divide num, return false
         }
         return true; // if none returns false than its a prime number
     }
 }
 
 function updateDom(start, end, step, all_primes){
+
+    if(notShowRes){
+        // user don't want to show all between start and end;
+        //todo: ad ifPrime here
+        return;
+    }
     
     document.querySelector('.result-visual').innerHTML = '';
     // clearing dom af there was any
     
-    let new_array = all_primes.slice(); 
+    let new_array = all_primes.slice(); // all_primes not empty here
     //copying array for efficiency (there are several method for copying an array)
 
     // delete those primes which are less than starting number
@@ -144,7 +140,8 @@ function updateDom(start, end, step, all_primes){
         // break if array is empty OR array[0] > starting_value
         new_array.shift();
     }
-    // after deleting all unnecessary prime, length of the new_array will be the total_primes value
+
+    // after deleting all unnecessary primes, length of the new_array will be the total_primes value
     let total_primes = new_array.length;
     // update dom
     document.querySelector('.totals').innerHTML = total_primes;
@@ -173,13 +170,5 @@ function updateDom(start, end, step, all_primes){
             new_array.shift();
             continue;
         }
-    }
-}
-
-function changeDarkMode(){
-    if (document.body.style.backgroundColor == "rgb(255, 255, 255)"){
-        document.body.style.backgroundColor = "rgb(36, 37, 42)";
-    }else {
-        document.body.style.backgroundColor = 'rgb(255, 255, 255)'
     }
 }
