@@ -1,20 +1,28 @@
-document.addEventListener("DOMContentLoaded", documentFunc);
-
-function documentFunc(){
+document.addEventListener("DOMContentLoaded", () => {
+    // on documenat_content_loaded add eventlistener
     document.getElementById("search").addEventListener("click", inputVal);
     document.getElementById("search-input").onkeydown = e => {
         if (event.which == 13 || event.keyCode == 13){
             inputVal();
         }
     }
-}
+
+    // get stuff from localStorage, if not then => []
+    all_primes = localStorage.getItem('all_primes') || [];
+});
+
+// gobal_var --so that u have to count var only once
+let all_primes = [];
 
 function inputVal(){
     console.log("[TAKING INPUT]");
     let input_str = document.getElementById("search-input").value;
     let nums = input_str.split('-');
+
     console.log("[INPUT]", nums);
+
     if (nums.length === 1){
+        // he just passed only one number
         calculate(1, nums[0]) // 1 is not prime (starting from 1)
     }
     else if (nums.length === 2){
@@ -39,8 +47,6 @@ function calculate(start, end, step=1){
     document.getElementById('search-input').removeAttribute('data-error');
 
     console.log("[CACULATING]")
-
-    let all_primes = []; //all prime number's array
     
     start = parseInt(start);
     end = parseInt(end);
@@ -55,19 +61,54 @@ function calculate(start, end, step=1){
     }
 
     // check if isPrime
-    for (let i=1; i<=end; i+=step){
-        // starting from 1 because we need those prime to calculate higher value.
-        if(isPrime(i, all_primes)){ // returns bool
-            console.info('[Prime]', i);
-            all_primes.push(i);
-        }
-    }
+    
 
     console.log("[All Primes] ", all_primes);
     // all primes are found --> all_primes array
 
     // update dom
     updateDom(start, end, step, all_primes)
+}
+
+function isAllPrime(end){
+    /* This func calculate all prime and mutate the global all_primes variable */
+
+    let starting_point =1; //calculation will be started form this val
+    if (all_primes.length){
+        // if the array is not empty, check how many values has caculated already
+        
+        let  last_element = all_primes[all_primes.length - 1];
+        if (end <= last_element) {
+            // means all values are caculated and no need to count(mutate global var)
+            return;
+        }else{
+            // end > last_element
+            // some values nedd to be calculated
+
+        }
+    }
+
+    for (let i=1; i<=end; i+=step){
+        // starting from 1 because we need those prime to calculate higher value.
+        /*Check -->
+            1. if the list contains the already.
+            2. if not then check the number is a prime.
+        */
+        let  last_element = all_primes[all_primes.length - 1];
+        if (i <= last_element){
+            // if i <= last_element_of_the_list
+            // means the list already contains the number (means its prime*)
+            // nothing to do
+            continue;
+        }
+        else if(isPrime(i, all_primes)){ 
+            // returns bool
+            // list not contains that number
+            // add it to the list
+            //console.info('[new Prime]', i);
+            all_primes.push(i);
+        }
+    }
 }
 
 function isPrime(num, all_primes){
@@ -132,5 +173,13 @@ function updateDom(start, end, step, all_primes){
             new_array.shift();
             continue;
         }
+    }
+}
+
+function changeDarkMode(){
+    if (document.body.style.backgroundColor == "rgb(255, 255, 255)"){
+        document.body.style.backgroundColor = "rgb(36, 37, 42)";
+    }else {
+        document.body.style.backgroundColor = 'rgb(255, 255, 255)'
     }
 }
