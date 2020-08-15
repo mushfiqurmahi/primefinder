@@ -2,9 +2,17 @@
 let all_primes = [];
 // all calculated prime numbers' list in ascending order
 
+let needed_primes = [];
+
 let notShowRes = false
 
 document.addEventListener("DOMContentLoaded", () => {
+    // copyTextToClipboard eventlistener
+    document.getElementById("copyTextToClipboard").addEventListener('click', ()=>{
+        copyTextToClipboard(JSON.stringify(needed_primes));
+    })
+
+
     // on documenat_content_loaded add get the value
     let input = window.location.search.substring(1).split('=')
     if (!input.length === 2){
@@ -141,23 +149,25 @@ function updateDom(start, end, step, all_primes){
         new_array.shift();
     }
 
+    /* here is a problem with step value
     // after deleting all unnecessary primes, length of the new_array will be the total_primes value
     let total_primes = new_array.length;
     // update dom
     document.querySelector('.totals').innerHTML = total_primes;
+    */
 
-    console.log('[Primes] ', new_array)
-
-    for (let i=start; i<=end; i+=step){
-        if (!new_array.length || i < new_array[0]){
-            /*Checking if ...
-            1. new_array is empty (means no prime left)
-            2. or if not empty check current num is less than 1st element of primes 
-            */
-
-            // insert them as normal* numbers
-            document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
-            continue;
+   console.log('[Primes]-[after 1st portion deleted] ', new_array);
+   
+   for (let i=start; i<=end; i+=step){
+       if (!new_array.length || i < new_array[0]){
+           /*Checking if ...
+           1. new_array is empty (means no prime left)
+           2. or if not empty check current num is less than 1st element of primes 
+           */
+          
+          // insert them as normal* numbers
+          document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
+          continue;
         }
         else if (i > new_array[0]){
             new_array.shift();
@@ -167,14 +177,30 @@ function updateDom(start, end, step, all_primes){
         }
         else {
             // if i==all_primes[0] --> means its a prime number
-
+            
             /*as we have deleted all i > new_array[0] numbers this condition will never true */
             
             // insert it as prime*  number
             // and delete the 1st item(prime) of the array
             document.querySelector('.result-visual').innerHTML+=`<div data-prime><span>${i}</span></div>`;
             new_array.shift();
+            needed_primes.push(i);
             continue;
         }
     }
+    
+    document.querySelector('.totals').innerHTML = needed_primes.length;
+    console.log('[Needed Primes]', needed_primes);
+}
+
+function copyTextToClipboard(text) {
+    if (!navigator.clipboard) {
+      fallbackCopyTextToClipboard(text);
+      return;
+    }
+    navigator.clipboard.writeText(text).then(function() {
+      console.log('Async: Copying to clipboard was successful!');
+    }, function(err) {
+      console.error('Async: Could not copy text: ', err);
+    });
 }
