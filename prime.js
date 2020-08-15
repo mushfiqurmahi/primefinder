@@ -28,11 +28,16 @@ function inputVal(){
     else {
         // wrong input
         console.error("[WRONG INPUT]");
+        document.getElementById('search-input').setAttribute('data-error', '');
         return;
     }
 }
 
 function calculate(start, end, step=1){
+    // input is right
+    console.log("[RIGHT INPUT]");
+    document.getElementById('search-input').removeAttribute('data-error');
+
     console.log("[CACULATING]")
 
     let all_primes = []; //all prime number's array
@@ -42,14 +47,16 @@ function calculate(start, end, step=1){
     step = parseInt(step);
     
     console.log(start, end, step);
-    if (!(start && end && step && start>0 && end>0 && step>0 && start!=end)){
+    if (!(start && end && step && start>0 && end>0 && step>0 && start<end)){
         //wrong input
         console.error("[WRONG INPUT]");
+        document.getElementById('search-input').setAttribute('data-error', '');
         return;
     }
 
     // check if isPrime
-    for (let i=start; i<=end; i+=step){
+    for (let i=1; i<=end; i+=step){
+        // starting from 1 because we need those prime to calculate higher value.
         if(isPrime(i, all_primes)){ // returns bool
             console.info('[Prime]', i);
             all_primes.push(i);
@@ -89,6 +96,20 @@ function updateDom(start, end, step, all_primes){
     let new_array = all_primes.slice(); 
     //copying array for efficiency (there are several method for copying an array)
 
+    // delete those primes which are less than starting number
+    // terminating "i > new_array[0]" condition
+    while (true){
+        if (!new_array.length || new_array[0] >= start) break;
+        // break if array is empty OR array[0] > starting_value
+        new_array.shift();
+    }
+    // after deleting all unnecessary prime, length of the new_array will be the total_primes value
+    let total_primes = new_array.length;
+    // update dom
+    document.querySelector('.totals').innerHTML = total_primes;
+
+    console.log('[Primes] ', new_array)
+
     for (let i=start; i<=end; i+=step){
         if (!new_array.length || i < new_array[0]){
             /*Checking if ...
@@ -98,14 +119,18 @@ function updateDom(start, end, step, all_primes){
 
             // insert them as normal* numbers
             document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
+            continue;
         }
         else{ 
             // if i==all_primes[0] --> means its a prime number
 
+            /*as we have deleted all i > new_array[0] numbers this condition will never true */
+            
             // insert it as prime*  number
             // and delete the 1st item(prime) of the array
             document.querySelector('.result-visual').innerHTML+=`<div data-prime><span>${i}</span></div>`;
             new_array.shift();
+            continue;
         }
     }
 }

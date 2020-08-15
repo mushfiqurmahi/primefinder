@@ -89,6 +89,9 @@ header nav a:hover{
     color: #363636;
     padding: .1em .4em;
 }
+.search input[data-error]{
+    color: #ff1e21;
+}
 .search button{
     padding: .2em .7em;
     font-size: 1.3rem;
