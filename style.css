@@ -39,7 +39,7 @@ header nav a {
     text-decoration: none;
     color: #fff;
     display: inline-block;
-    padding: 0 2em;
+    padding-left: 2em;
     transition: color 0.3s ease;
 }
 header nav a:hover{
@@ -173,5 +173,17 @@ header nav a:hover{
 }
 
 /* ---------------section.result-visual end-------------- */
+/* ---------------media query-------------- */
+@media (max-width:568px){
+    html, body{
+        font-size: 9.9px;
+    }
+}
+@media (max-width:736px){
+    html, body{
+        font-size: 11px;
+    }
+}
+/* ---------------media query end-------------- */
 
 
