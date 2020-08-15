@@ -52,33 +52,38 @@ header nav a:hover{
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
-    height: 70vh;
+    height: 80vh;
     font-weight: 400;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+    display: grid;
+    grid-template: 50px 50px 1fr 3fr 100px / repeat(2, 1fr) ;
+}
+.landing > * {
+    margin: 0 .7rem;
 }
 .landing div:nth-child(1){
-    border-left: 9px solid #ffbb79;
-    font-size: 1.5rem;
-    padding: 2rem 1rem;
+    grid-column: 1 / -1;
+    border-left: 8px solid #ffbb79;
+    font-size: 1.01rem;
+    padding: 1.5rem 1rem;
 }
 .landing div > span{
     color: #24252A;
     font-weight: 500;
 }
 .manual{
-    border-left: 5px solid #ffbb79;
-    padding: .2rem 1rem;
+    grid-column: 1 / -1;
+    border-left: 2px solid #ffbb79;
+    padding: .9rem 1.7rem;
 }
-.manual p:last-child{
+.manual p, .function p{
     padding-top: 5px;
 }
-.search{
+.search{ /*2nd child*/
+    grid-column: 1 / -1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    justify-self: center;
 }
 .search input{
     font-size: 1.3rem;
@@ -108,7 +113,12 @@ header nav a:hover{
     background-color: #ff5154;
     box-shadow: inset 0 0 4px 0;
 }
-
+.function{
+    grid-column: 1 / -1;
+    border-left: 2px solid #ffbb79;
+    padding: .9rem 1.7rem;
+    margin-top: 1rem;
+}
 /* ---------------section.1 end-------------- */
 /* ---------------section.info starts-------------- */
 .info {

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // get stuff from localStorage, if not then => []
-    all_primes = localStorage.getItem('all_primes') || [];
+    // all_primes = JSON.parse(localStorage.getItem('all_primes')) || [];
 
     let val = input[1]; // string
     inputVal(val);
@@ -106,6 +106,9 @@ function isAllPrime(end){
             all_primes.push(i);
         }
     }
+
+    //after all calculation, store that array  for future use
+    // localStorage.setItem('all_primes', JSON.stringify(all_primes));
 }
 
 function isPrime(num){
