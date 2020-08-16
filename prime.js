@@ -4,7 +4,9 @@ let all_primes = [];
 
 let needed_primes = [];
 
-let notShowRes = false
+let notShowRes = false //if true, result will only be caculated but not show
+let showAllNumbers = true; //if false, only prime numbers will be displayed
+let showPrime = true; //if false, only non-prime numbers will be displayed
 
 document.addEventListener("DOMContentLoaded", () => {
     // copyTextToClipboard eventlistener
@@ -76,7 +78,7 @@ function calculate(start, end, step=1){
     // all primes are found --> all_primes array
 
     // update dom
-    updateDom(start, end, step, all_primes)
+    updateDom(start, end, step)
 }
 
 function isAllPrime(end){
@@ -130,7 +132,7 @@ function isPrime(num){
     }
 }
 
-function updateDom(start, end, step, all_primes){
+function updateDom(start, end, step){
 
     if(notShowRes){
         // user don't want to show all between start and end;
@@ -152,7 +154,7 @@ function updateDom(start, end, step, all_primes){
         new_array.shift();
     }
 
-    /* here is a problem with step value
+    /* here is a problem with step value -solved in the next section
     // after deleting all unnecessary primes, length of the new_array will be the total_primes value
     let total_primes = new_array.length;
     // update dom
@@ -161,21 +163,30 @@ function updateDom(start, end, step, all_primes){
 
    console.log('[Primes]-[after 1st portion deleted] ', new_array);
    
+   let total_nums = 0; // all numbers that user needed
+   let elementsToAppend = ""; // innerHtml
+
    for (let i=start; i<=end; i+=step){
-       if (!new_array.length || i < new_array[0]){
-           /*Checking if ...
-           1. new_array is empty (means no prime left)
-           2. or if not empty check current num is less than 1st element of primes 
-           */
+       // increase total_nums by one;
+       total_nums++;
+
+        if ( !new_array.length || i < new_array[0] ){
+            /*Checking if ...
+            1. new_array is empty (means no prime left)
+            2. or if not empty check current num is less than 1st element of primes 
+            */
           
-          // insert them as normal* numbers
-          document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
-          continue;
+            // insert them as normal* numbers
+            if (showAllNumbers)
+            elementsToAppend+=`<div><span>${i}</span></div>`; 
+            continue;
         }
-        else if (i > new_array[0]){
+        else if ( i > new_array[0] ){
             new_array.shift();
             console.log('[Deleted]', new_array.shift())
-            document.querySelector('.result-visual').innerHTML+=`<div><span>${i}</span></div>`;
+            
+            if (showAllNumbers)
+                elementsToAppend+=`<div><span>${i}</span></div>`;
             continue;
         }
         else {
@@ -185,15 +196,21 @@ function updateDom(start, end, step, all_primes){
             
             // insert it as prime*  number
             // and delete the 1st item(prime) of the array
-            document.querySelector('.result-visual').innerHTML+=`<div data-prime><span>${i}</span></div>`;
+            if (showPrime)
+                elementsToAppend+=`<div data-prime><span>${i}</span></div>`;
             new_array.shift();
             needed_primes.push(i);
             continue;
         }
     }
-    
-    document.querySelector('.totals').innerHTML = needed_primes.length;
     console.log('[Needed Primes]', needed_primes);
+    
+    // after all update the counts and results in DOM
+    document.querySelector('.totals').innerHTML = total_nums;
+    document.querySelector('.primes').innerHTML = needed_primes.length;
+    document.querySelector('.notPrimes').innerHTML = total_nums - needed_primes.length;
+
+    document.querySelector('.result-visual').innerHTML = elementsToAppend;
 }
 
 function copyTextToClipboard(text) {
