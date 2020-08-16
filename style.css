@@ -56,9 +56,21 @@ header nav a:hover{
     font-weight: 400;
     display: grid;
     grid-template: 50px 50px 1fr 3fr 100px / repeat(2, 1fr) ;
+    position: relative;
+}
+.landing::after{
+    position: absolute;
+        content: '';
+        display: block;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,.25);
 }
 .landing > * {
     margin: 0 .7rem;
+    z-index: 100;
 }
 .landing div:nth-child(1){
     grid-column: 1 / -1;
