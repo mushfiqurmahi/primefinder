@@ -35,7 +35,6 @@
                 <li><p>Enter a <span>Range [start-end]</span> (e.g. 10-100) to find all prime numbers between 10 and 100.</p> </li>
                 <li><p>Enter a <span>Range [start-end-step]</span> with step (e.g. 10-100-3) to find all prime numbers between 10 and 100 with steps of 3.</p> </li>
                 <li><p>Do Not enter 0 or negative numbers.</p></li>
-                <li><p>Do Not enter 0 or negative numbers.</p></li>
             </ul>
         </div>
         <div class="function">
@@ -58,7 +57,8 @@
     }
 
     function toGo(){
-        window.location.href = `http://127.0.0.1:5500/go.html?search=${document.getElementById('search-input').value}`; 
+        window.location.href = `https://mushfiqurmahi.github.io/primefinder/go.html?search=${document.getElementById('search-input').value}`;
+        // this value is hard-coded seems not good 
     }
 });
 </script>
