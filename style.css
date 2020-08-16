@@ -62,8 +62,7 @@ header nav a:hover{
     color: #ff5357;
 }
 
-.subNav::after{
-    content: "X";
+.subNav > span{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,8 +78,8 @@ header nav a:hover{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.subNav:hover::after{
-    box-shadow: inset #363636 0 0 7px 0;
+.subNav > span:hover{
+    box-shadow:  #fff 0 0 10px 0;
 }
 .subNav > div{
     display: flex;

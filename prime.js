@@ -22,6 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
             isView = !isView;
         }
     });
+    // view-menu close event listener
+    document.querySelector('.subNav > span').addEventListener('click', e=>{
+        document.querySelector('.subNav').style.display = 'none';
+        isView = false
+    })
 
     //check boxs eventlistener
     document.querySelector('.subNav').addEventListener('click', ()=>{
