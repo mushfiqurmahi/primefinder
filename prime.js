@@ -5,10 +5,50 @@ let all_primes = [];
 let needed_primes = [];
 
 let notShowRes = false //if true, result will only be caculated but not show
-let showAllNumbers = true; //if false, only prime numbers will be displayed
-let showPrime = true; //if false, only non-prime numbers will be displayed
+// let showAllNumbers = true; //if false, only prime numbers will be displayed
+// let showPrime = true; //if false, only non-prime numbers will be displayed
+
+let isView = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+    // view-menu event
+    document.getElementById('view-menu').addEventListener('click', e=>{
+        if (isView){
+            document.querySelector('.subNav').style.display = 'none';
+            isView = !isView;
+        }
+        else{
+            document.querySelector('.subNav').style.display = 'flex';
+            isView = !isView;
+        }
+    });
+
+    //check boxs eventlistener
+    document.querySelector('.subNav').addEventListener('click', ()=>{
+        let subNavCheckBoxes = document.querySelectorAll('.subNav input[type="checkbox"]');
+
+        if (subNavCheckBoxes[0].checked){
+            // only prime
+            document.querySelectorAll(".result-visual > div:not([data-prime])").forEach(e=>e.style.display = "none")
+        }else{
+            document.querySelectorAll(".result-visual > div:not([data-prime])").forEach(e=>e.style.display = "flex")
+        }
+
+        if (subNavCheckBoxes[1].checked){
+            // only non-prime
+            document.querySelectorAll(".result-visual > div[data-prime]").forEach(e=>e.style.display = "none")
+        }else{
+            document.querySelectorAll(".result-visual > div[data-prime]").forEach(e=>e.style.display = "flex")
+        }
+
+        if (subNavCheckBoxes[2].checked){
+            // no val to display
+            notShowRes = true
+        }else{
+            notShowRes = false
+        }
+    })
+
     // copyTextToClipboard eventlistener
     document.getElementById("copyTextToClipboard").addEventListener('click', ()=>{
         copyTextToClipboard(JSON.stringify(needed_primes));
@@ -134,6 +174,10 @@ function isPrime(num){
 
 function updateDom(start, end, step){
 
+    console.log('[notShowResult]', notShowRes);
+    // console.log('[showAllNumbers]', showAllNumbers);
+    // console.log('[showPrime]', showPrime);
+
     if(notShowRes){
         // user don't want to show all between start and end;
         //todo: ad ifPrime here
@@ -177,16 +221,15 @@ function updateDom(start, end, step){
             */
           
             // insert them as normal* numbers
-            if (showAllNumbers)
+       
             elementsToAppend+=`<div><span>${i}</span></div>`; 
             continue;
         }
         else if ( i > new_array[0] ){
             new_array.shift();
             console.log('[Deleted]', new_array.shift())
-            
-            if (showAllNumbers)
-                elementsToAppend+=`<div><span>${i}</span></div>`;
+        
+            elementsToAppend+=`<div><span>${i}</span></div>`;
             continue;
         }
         else {
@@ -196,8 +239,8 @@ function updateDom(start, end, step){
             
             // insert it as prime*  number
             // and delete the 1st item(prime) of the array
-            if (showPrime)
-                elementsToAppend+=`<div data-prime><span>${i}</span></div>`;
+
+            elementsToAppend+=`<div data-prime><span>${i}</span></div>`;
             new_array.shift();
             needed_primes.push(i);
             continue;
