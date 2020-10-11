@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Finder</title>
-
+    <!--------------------base url----------------->
+    <base href="https://smmus.github.io/primefinder/">
     <!--------------------importing google fonts----------------->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet"> 
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" rel="stylesheet">     
     <!--------------------css file----------------->
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!--------------------navbar starts----------------->
     <header>
         <div class="header-logo"><span>Prime</span>Finder</div>
         <nav>
-            <a href="https://github.com/mushfiqurmahi/primefinder" target="_blank" rel="noopener noreferrer">Project Files</a>
-            <a href="/primefinder/go.html">Go</a>
+            <a href="/" target="_blank" rel="noopener noreferrer">Project Files</a>
+            <a href="go.html">Go</a>
         </nav>
     </header>
     <!--------------------navbar ends----------------->
@@ -60,8 +60,8 @@
     }
 
     function toGo(){
-        window.location.href = `https://mushfiqurmahi.github.io/primefinder/go.html?search=${document.getElementById('search-input').value}`;
-        // this value is hard-coded, seems not good 
+        window.location.href = `${document.baseURI}/go.html?search=${document.getElementById('search-input').value}`;
+        // this value is hard-coded, seems not good - [fixed]
     }
 });
 </script>
